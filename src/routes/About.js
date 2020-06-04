@@ -6,7 +6,7 @@ function About() {
   return (
     <>
     <GlobalStyle/>
-    <Div> ABOUT 10:13 </Div>
+    <Div> ABOUT 10:16 </Div>
     </>
   );
 }
