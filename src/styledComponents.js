@@ -5,6 +5,7 @@ import styled, {createGlobalStyle, css} from 'styled-components';
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: #111111;
+    color:#888;
   }
 `
 
@@ -13,6 +14,8 @@ const Div = styled.div`
 	width: 100%;
 	height:100%;
 `
+
+
 
 	
 export {

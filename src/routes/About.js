@@ -6,7 +6,7 @@ function About() {
   return (
     <>
     <GlobalStyle/>
-    <Div> ABOUT 10:17 </Div>
+    <Div> Hello new visitor! </Div>
     </>
   );
 }
