@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import {Div, GlobalStyle} from '../styledComponents';
+import GlobalStyle from '../styles/DefaultStyles';
 
 function About() {
   return (

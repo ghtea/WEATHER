@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import {
-  Div, GlobalStyle
+  GlobalStyle, Div
 }
-from '../styledComponents';
+from '../styles/DefaultStyles';
 
 import * as api from '../lib/api';
 
