@@ -1,7 +1,8 @@
 import React from 'react';
+import {GlobalStyle, Div, Button} from '../styles/DefaultStyles';
 
 function MainCircle () {
-  return <div >Main Circle </div>;
+  return <Div >Main Circle </Div>;
 }
 
 export default MainCircle;

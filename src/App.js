@@ -7,7 +7,7 @@ import Home from "./routes/Home";
 
 import styled, {ThemeProvider } from 'styled-components';
 import {dark, light} from "./styles/themes"
-import {Div, GlobalStyle} from './styles/DefaultStyles';
+
 
 
 
