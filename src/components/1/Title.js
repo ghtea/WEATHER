@@ -1,8 +1,8 @@
 import React from 'react';
 import {GlobalStyle, Div} from '../../styles/DefaultStyles';
 
-export function Title () {
+function Title () {
   return <Div > Seoul </Div>;
 }
 
-/* export default MainCircle; */
+export default Title;
