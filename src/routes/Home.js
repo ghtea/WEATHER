@@ -5,7 +5,7 @@ import {GlobalStyle, Div, Button} from '../styles/DefaultStyles';
 
 import * as api from '../lib/api';
 
-import MainCircle from '../components/MainCircle';
+import Title from '../components/1/Home';
 
 
 class Home extends React.Component {
@@ -44,8 +44,7 @@ class Home extends React.Component {
         
         
           <>
-            We are ready Again
-            <MainCircle/>
+            <Title/>
           </>
         
       } < />
