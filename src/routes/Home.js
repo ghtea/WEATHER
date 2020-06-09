@@ -5,7 +5,7 @@ import {GlobalStyle, Div, Button} from '../styles/DefaultStyles';
 
 import * as api from '../lib/api';
 
-import Title from '../components/1/Home';
+import Title from '../components/1/Title';
 
 
 class Home extends React.Component {
