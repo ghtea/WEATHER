@@ -56,8 +56,8 @@ function Menu () {
  
   <DivMenu>
   	<DivMenuItem > <NavLinkMenuItem to="/items"> Items </NavLinkMenuItem> </DivMenuItem>
-		<DivMenuItem > <NavLinkMenuItem to="/"> Today </NavLinkMenuItem> </DivMenuItem>
-		<DivMenuItem > <NavLinkMenuItem to="/"> Tomorrow </NavLinkMenuItem> </DivMenuItem>
+		<DivMenuItem > <NavLinkMenuItem to="/" exact={true}> Today </NavLinkMenuItem> </DivMenuItem>
+		<DivMenuItem > <NavLinkMenuItem to="/" exact={true}> Tomorrow </NavLinkMenuItem> </DivMenuItem>
 		<DivMenuItem > <NavLinkMenuItem to="/setting"> Setting </NavLinkMenuItem> </DivMenuItem>
 	</DivMenu>
 	

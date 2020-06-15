@@ -7,7 +7,7 @@ import styled, {createGlobalStyle} from 'styled-components';
     color: ${props => props.theme.color_normal};
     
     width: 100%;
-    
+    margin: 0;
     
   }
   

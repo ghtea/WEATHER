@@ -178,10 +178,10 @@ class Dashboard extends React.Component {
         : 
         <DivDashboard>
           
-          <Title title = {data["name"]} />
+          <Title title = {data["timezone"]} />
           <MenuVariable />
-          <GraphHorizontal weather = {data["weather"][0]} />
-          <GraphClock weather = {data["weather"][0]} />
+          <GraphHorizontal weather = {data["hourly"]} />
+          <GraphClock weatherH = {data["hourly"]} />
         
         </DivDashboard>
         
