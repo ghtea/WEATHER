@@ -1,0 +1,64 @@
+/*
+.donut-ring {
+    stroke: #EBEBEB;
+}*/
+
+
+
+.donut-percent {
+    animation: donutfadelong 1s;
+}
+
+
+@keyframes donutfadelong {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes donut1 {
+    0% {
+        stroke-dasharray: 0, 24;
+    }
+    100% {
+        stroke-dasharray: 1, 23;
+    }
+}
+
+
+.donut-text {
+    font-family: Arial, Helvetica, sans-serif;
+    fill: #FF6200;
+}
+.donut-text-1 {
+    fill: aqua;
+}
+
+.donut-label {
+    font-size: 0.02em;
+    font-weight: 700;
+    line-height: 1;
+    fill: #000;
+   //transform: translateY(0.25em);
+}
+
+.donut-percent {
+    font-size: 0.02em;
+    line-height: 1;
+    //transform: translateY(0.05em);
+    font-weight: bold;
+}
+
+.donut-data {
+    font-size: 0.01em;
+    line-height: 1;
+    //transform: translateY(0.025em);
+    text-align: center;
+    text-anchor: middle;
+    color:#666;
+    fill: #666;
+    animation: donutfadelong 1s;
+}

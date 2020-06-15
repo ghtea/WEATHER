@@ -1,37 +1,82 @@
-import React, {useState} from 'react';
-import axios from 'axios';
-import { BrowserRouter, Route } from "react-router-dom";
+import React, { Component }  from 'react';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import About from "./routes/About";
-import Home from "./routes/Home";
+import Items from "./routes/Items";
+import Dashboard from "./routes/Dashboard";
+import Setting from "./routes/Setting";
+import Menu from "./routes/Menu";
 
-import styled, {ThemeProvider } from 'styled-components';
+import {ThemeProvider } from 'styled-components';
 import {dark, light} from "./styles/themes"
+import {GlobalStyle} from './styles/DefaultStyles';
 
 
 
-
-
-function App() {
-  const [cTheme, setTheme] = useState('light'); 
-  const theme = cTheme === 'light' ? light : dark;
-  const toggleTheme = () => setTheme(cTheme === 'light' ? 'dark' : 'light'); 
-
+class App extends React.Component {
+    
+  isDarkMode() {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }  
+    
+    
+  constructor(props){
+      super(props);
+      
+      
+      
+      this.state = {
+          themeApp: 'light'
+      };
+      
+      
+  }
   
-  return (
-    <>
+  componentDidMount() {
+    // we use as string here but we should use as object (without comma) when pass to theme in ThemeProvicer
+      let themeDevice = this.isDarkMode() ? 'dark' : 'light';
+      
+      this.setState(prevState =>{
+          return{
+            ...prevState,
+            themeApp: themeDevice
+          }
+        })
+      
     
-    <ThemeProvider theme={light}>
+  }
+  
+  render() {
     
-    <BrowserRouter>
-      <Route path="/" exact={true} component={Home} />
-      <Route path="/about" component={About} />
-    </BrowserRouter>
+    const { themeApp } = this.state;
     
-    </ThemeProvider>
-    
-    </>
-  );
+    return (
+      <>
+      <ThemeProvider theme={themeApp === 'light' ? light : dark }>
+      <GlobalStyle/>
+      
+      
+      <BrowserRouter>
+        
+        <Switch >
+        <Route path="/items" component={Items} />
+        <Route path="/setting" component={Setting} />
+        <Route path="/"  component={Dashboard} />
+        </Switch >
+        
+        <Route path="/"  component={Menu} />
+        
+      </BrowserRouter>
+      
+      
+      </ThemeProvider>
+      </>
+    );
+  }
 }
 
 export default App;

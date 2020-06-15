@@ -1,35 +1,77 @@
-import React from 'react';
-import styled, {createGlobalStyle, css} from 'styled-components';
+import styled, {createGlobalStyle} from 'styled-components';
 
-
-export const GlobalStyle = createGlobalStyle`
-  body {
+ const GlobalStyle = createGlobalStyle`
+  body, #root {
+  
     background-color: ${props => props.theme.COLOR_bg};
     color: ${props => props.theme.color_normal};
     
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    width: 100%;
+    
+    
   }
+  
+  #root {
+   display: grid;
+  }
+  
+ 
+ 
+ @media (max-width:480px) {
+  #root {
+   
+   grid-template: 
+    "menu" 50px
+    "content" 1fr
+    / minmax(300px, 1fr);
+  }
+ }
+ 
+
+ @media (min-width: 481px) {
+  #root {
+
+   grid-template: 
+    "menu content" 1fr
+    / 100px minmax(300px, 600px);
+  }
+ }
+  
 `
 
-export const Div = styled.div`
+ const Div = styled.div`
+ 
+ width: 100%;
+ 
 	display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+ align-items: center;
+ justify-content: center;
+  
+  
 `
 
 
 
-export const Button = styled.button`
+ const Button = styled.button`
 	border: none;
 	cursor: pointer;
 		
+	width: 100%;
+		
 	display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+ align-items: center;
+ justify-content: center;
 		
 `
+
+const A = styled.a`
+	color: ${props => props.theme.color_normal};
+	text-decoration: none;
+		
+	display: flex;
+ align-items: center;
+ justify-content: center;
+		
+`
+
+export {GlobalStyle, Div, Button, A};

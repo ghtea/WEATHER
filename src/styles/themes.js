@@ -1,28 +1,37 @@
 
+const common = {
+    
+    color_active: '#00B9FF'
+    
+}
+
 export const light ={
+    
+    ...common,
     
     color_strong: '#000000',
     color_normal: '#222222',
     
     COLOR_bg: '#f0f0f9',
     
-    COLOR_box: '#f8f8f8',
+    COLOR_normal: '#f8f8f8',
     
-    color_0: '#888'
+    color_0: '#888888'
     
 }
 
 
 export const dark ={
     
-    color_strong: '#fff',
-    color_normal: '#ddd',
+    ...common,
     
-    COLOR_bg: '#000',
+    color_strong: '#ffffff',
+    color_normal: '#dddddd',
     
-    COLOR_box: '#191920',
+    COLOR_bg: '#000000',
     
-    color_0: '#888'
+    COLOR_normal: '#191920',
+    
+    color_0: '#888888'
     
 }
-
