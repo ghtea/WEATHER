@@ -16,6 +16,39 @@ const DivGraphClock = styled(Div)`
   
 `;
 
+//색상 방향(빨강, 파랑) 별로 나눠서 해야 한다. rgbStart가 white 가 되게.
+function blendColor(ZeroToOne, rgbStart, rgbEnd) {
+
+    let wStart = 1 - ZeroToOne;
+    let wEnd = ZeroToOne;
+
+    let rgb = [
+    	Math.round(rgbStart[0] * wStart + rgbEnd[0] * wEnd),
+      Math.round(rgbStart[1] * wStart + rgbEnd[1] * wEnd),
+      Math.round(rgbStart[2] * wStart + rgbEnd[2] * wEnd)
+      ];
+    return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
+};
+
+function zeroToOneTemp(temp){
+	let tempAvgGlobal = 14;
+	let tempGapHalf = 20;
+	
+	let tempZero = tempAvgGlobal - tempGapHalf;
+	let tempOne =  tempAvgGlobal + tempGapHalf;
+	
+	let zeroToOne;
+	
+	if (temp >= tempOne) {
+		zeroToOne = 1;
+	} else if (temp <= tempZero) {
+		zeroToOne = 0;
+	} else {
+		zeroToOne = (temp - tempZero) / (2* tempGapHalf);
+	}
+	
+	return zeroToOne;
+}
 
 
 
@@ -28,9 +61,8 @@ function GraphClock ({weatherH}) {
   const r = 1.909859317;
   
   const tempHours = (weatherH.map(hour => hour["temp"])).slice(0,12);
-  
-  //const TempHours = [10, 5, 13, 20]; 
-  const colorHours = ["red", "blue", "yellow", "green", "red", "blue", "yellow", "green", "red", "blue", "yellow", "green"];
+  const colorHours = tempHours.map( (temp) => blendColor(zeroToOneTemp(temp), [0,200,200], [255,0,0]) )
+  console.log(tempHours)
   
   return (
   	
@@ -67,7 +99,7 @@ function GraphClock ({weatherH}) {
   			  fill="transparent"
   			  stroke={colorHours[i]}
   			  
-  	      strokeDasharray= "1 11"
+  	      strokeDasharray= "1 12"
   			  strokeDashoffset={3-i}
   			  
   			  key={i}
