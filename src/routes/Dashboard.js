@@ -112,7 +112,7 @@ class Dashboard extends React.Component {
         })
         
         console.log("can't get your location");
-        return ['41.902782', '12.496366'];
+        return ['37.532600', '127.024612'];
     }
   };
   

@@ -14,6 +14,7 @@ const DivGraphClock = styled(Div)`
   font-size: 1rem;
   margin: 0 auto;
   
+  
 `;
 
 //색상 방향(빨강, 파랑) 별로 나눠서 해야 한다. rgbStart가 white 가 되게.
@@ -56,8 +57,31 @@ function tempToColor(temp, rgbMinus, rgbZero, rgbPlus){
 }
 
 
+function unixToHour(unix) {
+	let date = new Date(unix * 1000);
+	let hour = date.getHours();
+	return hour;
+}
 
-function GraphClock ({weatherH}) {
+
+function getCurrentOrder(hour){
+	let hour12;
+	if (hour >= 12) {
+		hour12 = hour -12
+	} else {
+		hour12 = hour;
+	}
+	return hour12;
+}
+
+
+
+
+
+const GraphClock = (props) => {
+  
+  console.log(props);
+  const weatherH = props.weatherH;
   
   const cx = 2.5;
   const cy = 2.5;
@@ -67,7 +91,18 @@ function GraphClock ({weatherH}) {
   
   const tempHours = (weatherH.map(hour => hour["temp"])).slice(0,12);
   const colorHours = tempHours.map( (temp) => tempToColor(temp, [0,200,200], [255,255,255], [255,0,0]) )
-  console.log(tempHours, colorHours)
+  
+  const hours = (weatherH.map(hour => unixToHour(hour["dt"]) )).slice(0,12);
+  
+  const cHour = hours[0];
+  const cOrder = getCurrentOrder(cHour);
+  
+  // following doesn't work
+  //const COLOR_bg = props.theme.COLOR_bg;
+  
+  console.log(tempHours, colorHours, cHour)
+  
+  
   
   return (
   	
@@ -81,7 +116,7 @@ function GraphClock ({weatherH}) {
   		
   			<circle /* hole */
   			  cx={cx} cy={cy} r={r}
-  			  fill="#000000"
+  			  fill="#888888"
   			  
   			> </circle>
   			
@@ -95,6 +130,21 @@ function GraphClock ({weatherH}) {
   			> </circle>
   			
   			
+  			<circle /* current hour(order) */
+  			  cx={cx} cy={cy} r={r} 
+  			  strokeWidth="1.5"
+  			  
+  			  
+  			  fill="transparent"
+  			  stroke={"#ff0"}
+  			  
+  	      strokeDasharray= "1 11"
+  			  strokeDashoffset={3-cOrder}
+  			  
+  			> {cHour} </circle>
+  			
+  			
+  			
   			{tempHours.map( (temp, i) => (
   			  <circle /* 1 hour ring */
   			  cx={cx} cy={cy} r={r} 
@@ -105,7 +155,7 @@ function GraphClock ({weatherH}) {
   			  stroke={colorHours[i]}
   			  
   	      strokeDasharray= "1 11"
-  			  strokeDashoffset={3-i}
+  			  strokeDashoffset={3-cOrder-i}
   			  
   			  key={i}
   			> {temp} </circle>
