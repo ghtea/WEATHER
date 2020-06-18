@@ -17,37 +17,42 @@ const DivGraphClock = styled(Div)`
 `;
 
 //색상 방향(빨강, 파랑) 별로 나눠서 해야 한다. rgbStart가 white 가 되게.
-function blendColor(ZeroToOne, rgbStart, rgbEnd) {
+function blendColor(ZeroToOne, rgbZero, rgbOne) {
 
-    let wStart = 1 - ZeroToOne;
-    let wEnd = ZeroToOne;
+    let weightZero = 1 - ZeroToOne;
+    let weightOne = ZeroToOne;
 
     let rgb = [
-    	Math.round(rgbStart[0] * wStart + rgbEnd[0] * wEnd),
-      Math.round(rgbStart[1] * wStart + rgbEnd[1] * wEnd),
-      Math.round(rgbStart[2] * wStart + rgbEnd[2] * wEnd)
+    	Math.round(rgbZero[0] * weightZero + rgbOne[0] * weightOne),
+      Math.round(rgbZero[1] * weightZero + rgbOne[1] * weightOne),
+      Math.round(rgbZero[2] * weightZero + rgbOne[2] * weightOne)
       ];
-    return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
-};
+    return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+}
 
-function zeroToOneTemp(temp){
+// make to -1 ~ 1
+function tempToColor(temp, rgbMinus, rgbZero, rgbPlus){
 	let tempAvgGlobal = 14;
 	let tempGapHalf = 20;
 	
-	let tempZero = tempAvgGlobal - tempGapHalf;
-	let tempOne =  tempAvgGlobal + tempGapHalf;
+	let numTemp;
+	let colorTemp;
 	
-	let zeroToOne;
-	
-	if (temp >= tempOne) {
-		zeroToOne = 1;
-	} else if (temp <= tempZero) {
-		zeroToOne = 0;
-	} else {
-		zeroToOne = (temp - tempZero) / (2* tempGapHalf);
+	if (temp >= tempAvgGlobal + tempGapHalf) {
+		numTemp = 1;
+	} else if (temp <= tempAvgGlobal - tempGapHalf) {
+		numTemp = -1;
+	} else  {
+		numTemp = (temp - tempAvgGlobal) / tempGapHalf;
 	}
 	
-	return zeroToOne;
+	if (numTemp >= 0) {
+		return blendColor(numTemp, rgbZero, rgbPlus)
+	} else if (numTemp <0) {
+		return blendColor(-numTemp, rgbZero, rgbMinus)
+	}
+	
+
 }
 
 
@@ -61,8 +66,8 @@ function GraphClock ({weatherH}) {
   const r = 1.909859317;
   
   const tempHours = (weatherH.map(hour => hour["temp"])).slice(0,12);
-  const colorHours = tempHours.map( (temp) => blendColor(zeroToOneTemp(temp), [0,200,200], [255,0,0]) )
-  console.log(tempHours)
+  const colorHours = tempHours.map( (temp) => tempToColor(temp, [0,200,200], [255,255,255], [255,0,0]) )
+  console.log(tempHours, colorHours)
   
   return (
   	
@@ -76,7 +81,7 @@ function GraphClock ({weatherH}) {
   		
   			<circle /* hole */
   			  cx={cx} cy={cy} r={r}
-  			  fill="#ffffff"
+  			  fill="#000000"
   			  
   			> </circle>
   			
@@ -99,7 +104,7 @@ function GraphClock ({weatherH}) {
   			  fill="transparent"
   			  stroke={colorHours[i]}
   			  
-  	      strokeDasharray= "1 12"
+  	      strokeDasharray= "1 11"
   			  strokeDashoffset={3-i}
   			  
   			  key={i}
