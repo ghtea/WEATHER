@@ -1,0 +1,81 @@
+	/* hole and entire background ring */
+  	<div style={{position: 'absolute', zIndex:1}}>
+  		<svg
+  		  xmlns="http://www.w3.org/2000/svg"
+  		  version="1.1"
+  		  width="100%" height="100%" viewBox="0 0 5 5" 
+  		>
+  		
+  			<circle /* hole */
+  			  cx={cx} cy={cy} r={r}
+  			  fill="#888888"
+  			  
+  			> </circle>
+  			
+  			<circle /* entire ring */
+  			  cx={cx} cy={cy} r={r} 
+  			  strokeWidth="1"
+  			  
+  			  fill="transparent"
+  			  stroke="#EBEBEB"
+  			  
+  			> </circle>
+  		</svg>
+  	</div>
+  	
+  	
+	
+	{tempHours.map( (temp, i) => (
+  			<div 
+  			position="absolute"
+  			width="100%" height="100%">
+  		<svg
+		  xmlns="http://www.w3.org/2000/svg"
+		  version="1.1"
+		  width="100%" height="100%" viewBox="0 0 5 5" 
+		  position="absolute"
+			>
+  			  <circle /* 1 hour ring */
+  			  cx={cx} cy={cy} r={r} 
+  			  strokeWidth="1"
+  			  
+  			  
+  			  fill="transparent"
+  			  stroke={colorHours[i]}
+  			  
+  	      strokeDasharray= "1 11"
+  	      
+  	      //rotate doesn't work on donut chart.
+  			  //transform="rotate(70.1deg)"
+  			  transformOrigin ="2.5 2.5"
+  				transform="rotate(5)" 
+  			  
+  			  key={i}
+  			> {temp} </circle>
+  			
+  		</svg>
+  		</div>
+  			) )}
+		    
+		    
+		    {tempHours.map( (temp, i) => (
+		   <div position="absolute">
+		   <svg
+			  xmlns="http://www.w3.org/2000/svg"
+			  version="1.1"
+			  width="100%" height="100%" viewBox="0 0 5 5" 
+				>
+  			  <text /* 1 hour text */
+  			  x={coordsHours[0][i]} 
+  			  y={coordsHours[1][i]}
+  			  
+  			  font-size={sizeFont.toString()+"em"}
+  			  text-anchor="middle"
+  			  
+  			  fill="#000000"
+  			  
+  			  key={i}
+  			> {temp} </text>
+  		</svg>
+  		</div>
+  			) )}

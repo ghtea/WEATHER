@@ -10,6 +10,8 @@ const DivMenu = styled(Div)`
   background-color: ${props => props.theme.COLOR_normal};
   color: ${props => props.theme.color_strong};
   
+  /* you should make position fixed but that break grid system  */
+  /*position: sticky;*/
   
   @media (max-width: 480px) {
   	flex-direction: row;

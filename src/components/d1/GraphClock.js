@@ -14,8 +14,11 @@ const DivGraphClock = styled(Div)`
   font-size: 1rem;
   margin: 0 auto;
   
+  position: relative;
   
 `;
+
+
 
 //색상 방향(빨강, 파랑) 별로 나눠서 해야 한다. rgbStart가 white 가 되게.
 function blendColor(ZeroToOne, rgbZero, rgbOne) {
@@ -75,6 +78,18 @@ function getCurrentOrder(hour){
 }
 
 
+function getCircleCoords(radius, steps, centerX, centerY) {
+	let xValues = [];
+	let yValues = [];
+	
+	for (var i = 0; i < steps; i++) {
+		//12시 정각이 아닌 12시와 1시 중간
+	  xValues.push( centerX + radius * Math.cos(2 * Math.PI * i / steps - 0.5 * Math.PI + 2 * Math.PI * 0.5 / steps));
+	  yValues.push( centerY + radius * Math.sin(2 * Math.PI * i / steps - 0.5 * Math.PI + 2 * Math.PI * 0.5 / steps));
+	}
+	
+	return [xValues, yValues]
+}
 
 
 
@@ -88,6 +103,7 @@ const GraphClock = (props) => {
   
   /*  12 / 2 pi = 1.909859317  */
   const r = 1.909859317;
+  const sizeFont = 0.02
   
   const tempHours = (weatherH.map(hour => hour["temp"])).slice(0,12);
   const colorHours = tempHours.map( (temp) => tempToColor(temp, [0,200,200], [255,255,255], [255,0,0]) )
@@ -96,6 +112,10 @@ const GraphClock = (props) => {
   
   const cHour = hours[0];
   const cOrder = getCurrentOrder(cHour);
+  
+   
+  
+  const coordsHours = getCircleCoords(r, 12, cx, cy);
   
   // following doesn't work
   //const COLOR_bg = props.theme.COLOR_bg;
@@ -108,29 +128,15 @@ const GraphClock = (props) => {
   	
   	
   	<DivGraphClock > 
-  		<svg
-  		  xmlns="http://www.w3.org/2000/svg"
-  		  version="1.1"
-  		  width="100%" height="100%" viewBox="0 0 5 5" 
-  		>
-  		
-  			<circle /* hole */
-  			  cx={cx} cy={cy} r={r}
-  			  fill="#888888"
-  			  
-  			> </circle>
-  			
-  			<circle /* entire ring */
-  			  cx={cx} cy={cy} r={r} 
-  			  strokeWidth="1"
-  			  
-  			  fill="transparent"
-  			  stroke="#EBEBEB"
-  			  
-  			> </circle>
-  			
-  			
-  			<circle /* current hour(order) */
+  	
+  	
+  	<div style={{position: 'absolute', zIndex:2}}>
+			<svg
+		  xmlns="http://www.w3.org/2000/svg"
+		  version="1.1"
+		  width="100%" height="100%" viewBox="0 0 5 5" 
+			>
+  			<circle 
   			  cx={cx} cy={cy} r={r} 
   			  strokeWidth="1.5"
   			  
@@ -142,11 +148,29 @@ const GraphClock = (props) => {
   			  strokeDashoffset={3-cOrder}
   			  
   			> {cHour} </circle>
+  		</svg>
+  	</div>
+  	
+  	
+  	
+  	{tempHours.map( (temp, i) => (
+  	/* 1 hour ring */
+			<div 
+			style={{
+				position: 'absolute', 
+				zIndex: 3
+				/* following don't work as I think */
+				/*,width:"100%", height:"100%"*/
+			}}
+			key={i}
+			>
   			
-  			
-  			
-  			{tempHours.map( (temp, i) => (
-  			  <circle /* 1 hour ring */
+  		<svg
+		  xmlns="http://www.w3.org/2000/svg"
+		  version="1.1"
+		  width="100%" height="100%" viewBox="0 0 5 5" 
+			>
+  			  <circle 
   			  cx={cx} cy={cy} r={r} 
   			  strokeWidth="1"
   			  
@@ -154,15 +178,37 @@ const GraphClock = (props) => {
   			  fill="transparent"
   			  stroke={colorHours[i]}
   			  
-  	      strokeDasharray= "1 11"
-  			  strokeDashoffset={3-cOrder-i}
+  	      strokeDasharray= "0.9 11.1"
+  	 
   			  
   			  key={i}
-  			> {temp} </circle>
+  			  
+  			  style={{
+						transformOrigin: 'center',
+						transform: `rotate(${-88 + i * (360 / 12)}deg)`
+					}}
+  			  
+  			> {temp, "at", hours[i]} </circle>
   			
+  			
+  			<text /* 1 hour text */
+  			  x={coordsHours[0][i]} 
+  			  y={coordsHours[1][i] -0.05}
+  			  
+  			  font-size={sizeFont.toString()+"em"}
+  			  text-anchor="middle"
+  			  
+  			  fill="#000000"
+  			  
+  			  key={i}
+  			> {temp} </text>
+  			
+  		</svg>
+  		</div>
   			) )}
+  			
+		   
 		    
-		  </svg>
   	</DivGraphClock>
 
 	
