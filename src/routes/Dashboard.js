@@ -32,7 +32,7 @@ const DivDashboard = styled(Div)`
   grid-template: 
     "title" 50px
     "menu" 50px
-    "graphH" 150px
+    "graphH" 160px
     "graphC" 300px
     / 1fr;
     

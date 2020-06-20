@@ -70,7 +70,7 @@ function unixToHour(unix) {
 function getCurrentOrder(hour){
 	let hour12;
 	if (hour >= 12) {
-		hour12 = hour -12
+		hour12 = hour -12;
 	} else {
 		hour12 = hour;
 	}
@@ -84,8 +84,9 @@ function getCircleCoords(radius, steps, centerX, centerY) {
 	
 	for (var i = 0; i < steps; i++) {
 		//12시 정각이 아닌 12시와 1시 중간
-	  xValues.push( centerX + radius * Math.cos(2 * Math.PI * i / steps - 0.5 * Math.PI + 2 * Math.PI * 0.5 / steps));
-	  yValues.push( centerY + radius * Math.sin(2 * Math.PI * i / steps - 0.5 * Math.PI + 2 * Math.PI * 0.5 / steps));
+		//y는 방향 반대
+	  xValues.push( centerX + radius * Math.cos(- 2 * Math.PI * i / steps  +  2 * Math.PI * (1/4)  -  2 * Math.PI * 0.5 / steps));
+	  yValues.push( centerY + radius * Math.sin(-(- 2 * Math.PI * i / steps  +  2 * Math.PI * (1/4)  -  2 * Math.PI * 0.5 / steps)));
 	}
 	
 	return [xValues, yValues]
@@ -98,12 +99,12 @@ const GraphClock = (props) => {
   console.log(props);
   const weatherH = props.weatherH;
   
-  const cx = 2.5;
-  const cy = 2.5;
+  const cx = 3;
+  const cy = 3;
   
   /*  12 / 2 pi = 1.909859317  */
   const r = 1.909859317;
-  const sizeFont = 0.02
+  const sizeFont = 0.018
   
   const tempHours = (weatherH.map(hour => hour["temp"])).slice(0,12);
   const colorHours = tempHours.map( (temp) => tempToColor(temp, [0,200,200], [255,255,255], [255,0,0]) )
@@ -115,7 +116,8 @@ const GraphClock = (props) => {
   
    
   
-  const coordsHours = getCircleCoords(r, 12, cx, cy);
+  const coordsOrders = getCircleCoords(r, 12, cx, cy);
+  //const coordsHours = hours.map( (hour)=>(coordsOrders[ getCurrentOrder(hour) ]) );
   
   // following doesn't work
   //const COLOR_bg = props.theme.COLOR_bg;
@@ -128,26 +130,31 @@ const GraphClock = (props) => {
   	
   	
   	<DivGraphClock > 
+  	<Div> {cHour} </Div>
   	
   	
   	<div style={{position: 'absolute', zIndex:2}}>
 			<svg
 		  xmlns="http://www.w3.org/2000/svg"
 		  version="1.1"
-		  width="100%" height="100%" viewBox="0 0 5 5" 
+		  width="100%" height="100%" viewBox="0 0 6 6"   
 			>
   			<circle 
   			  cx={cx} cy={cy} r={r} 
-  			  strokeWidth="1.5"
+  			  strokeWidth="1.3"
   			  
   			  
   			  fill="transparent"
   			  stroke={"#ff0"}
   			  
-  	      strokeDasharray= "1 11"
-  			  strokeDashoffset={3-cOrder}
+  	      strokeDasharray= "1.15 10.85"
+  	      
+  			  style={{
+						transformOrigin: 'center',
+						transform: `rotate(${-90 + cOrder * (360 / 12) - 3.5 }deg)`
+					}}
   			  
-  			> {cHour} </circle>
+  			> </circle>
   		</svg>
   	</div>
   	
@@ -168,7 +175,7 @@ const GraphClock = (props) => {
   		<svg
 		  xmlns="http://www.w3.org/2000/svg"
 		  version="1.1"
-		  width="100%" height="100%" viewBox="0 0 5 5" 
+		  width="100%" height="100%" viewBox="0 0 6 6"  
 			>
   			  <circle 
   			  cx={cx} cy={cy} r={r} 
@@ -181,19 +188,19 @@ const GraphClock = (props) => {
   	      strokeDasharray= "0.9 11.1"
   	 
   			  
-  			  key={i}
+  			  key={hours[i]}
   			  
   			  style={{
 						transformOrigin: 'center',
-						transform: `rotate(${-88 + i * (360 / 12)}deg)`
+						transform: `rotate(${-90 + i * (360 / 12)}deg)`
 					}}
   			  
-  			> {temp, "at", hours[i]} </circle>
+  			>{hours[i]} </circle>
   			
   			
   			<text /* 1 hour text */
-  			  x={coordsHours[0][i]} 
-  			  y={coordsHours[1][i] -0.05}
+  			  x={coordsOrders[0][i]} 
+  			  y={coordsOrders[1][i] }
   			  
   			  font-size={sizeFont.toString()+"em"}
   			  text-anchor="middle"
@@ -201,7 +208,19 @@ const GraphClock = (props) => {
   			  fill="#000000"
   			  
   			  key={i}
-  			> {temp} </text>
+  			> {`${temp}`} </text>
+  			
+  				<text /* 1 hour text */
+  			  x={coordsOrders[0][i]} 
+  			  y={coordsOrders[1][i] + 0.3}
+  			  
+  			  font-size={sizeFont.toString()+"em"}
+  			  text-anchor="middle"
+  			  
+  			  fill="#000000"
+  			  
+  			  key={i}
+  			> {`at${getCurrentOrder(hours[i])}`} </text>
   			
   		</svg>
   		</div>
